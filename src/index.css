@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: #FBFBFA;
+    color: #0A0A0A;
+    font-family: 'Geist', -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "ss02", "cv11";
+  }
+
+  ::selection {
+    background: #0A0A0A;
+    color: #FBFBFA;
+  }
+
+  /* Base touch target on mobile */
+  @media (max-width: 768px) {
+    a, button {
+      min-height: 44px;
+    }
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+  }
+
+  .font-mono {
+    font-family: 'Geist Mono', monospace;
+  }
+
+  /* ===== Fluid responsive headlines (clamp prevents overflow) ===== */
+  .h-hero {
+    font-size: clamp(2.75rem, 11vw, 9rem);
+    line-height: 0.95;
+  }
+  .h-section {
+    font-size: clamp(2rem, 6vw, 3.75rem);
+    line-height: 1.05;
+  }
+  .h-contact {
+    font-size: clamp(2.5rem, 9vw, 6.5rem);
+    line-height: 0.95;
+  }
+  .display-md {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    line-height: 1.2;
+  }
+  .display-lg {
+    font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+    line-height: 1.15;
+  }
+  .quote-lg {
+    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+    line-height: 1.3;
+  }
+
+  /* Editorial label - small caps mono */
+  .label-mono {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #6B6B6B;
+  }
+  @media (min-width: 768px) {
+    .label-mono { font-size: 11px; }
+  }
+
+  /* ===== Subtle paper grain (texture, not noise) ===== */
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+  }
+  /* Hide grain on small screens for performance */
+  @media (max-width: 640px) {
+    .grain::before { display: none; }
+  }
+
+  /* ===== Reveal-on-scroll ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== Hover-only animated underline link ===== */
+  .ulink {
+    position: relative;
+    display: inline-block;
+  }
+  @media (hover: hover) {
+    .ulink::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+      transform-origin: right;
+      transform: scaleX(0);
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .ulink:hover::after {
+      transform-origin: left;
+      transform: scaleX(1);
+    }
+  }
+
+  /* ===== Project card hover (hover-capable only) ===== */
+  .proj-card {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .proj-img {
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.6s ease;
+  }
+  @media (hover: hover) {
+    .proj-card:hover {
+      transform: translateY(-4px);
+    }
+    .proj-card:hover .proj-img {
+      transform: scale(1.04);
+    }
+  }
+
+  /* Section z-index */
+  nav, main, section, footer {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Mobile menu */
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  /* ===== Reduced motion ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .animate-marquee,
+    .animate-blink,
+    .animate-soft-pulse {
+      animation: none !important;
+    }
+    html { scroll-behavior: auto; }
+  }
+
+  /* Container with safe horizontal padding */
+  .container-x {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+}
