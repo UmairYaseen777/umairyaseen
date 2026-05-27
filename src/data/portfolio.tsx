@@ -1,12 +1,15 @@
-import type { ReactNode } from "react";
+// import type { ReactNode } from "react";
 
 export interface Project {
+  id: string;
   title: string;
   tagline: string;
   year: string;
   stack: string[];
   bg: string;
-  svg: ReactNode;
+  image: string;
+  websiteUrl: string;
+  // svg: ReactNode;
 }
 
 export interface Role {
@@ -125,5 +128,5 @@ export const CONTACT = {
   linkedin: "linkedin.com/in/umairyaseenmalik",
   linkedinUrl: "https://linkedin.com/in/umairyaseenmalik",
   location: "Islamabad, Pakistan",
-  phone: "0092-315-5777015",
+  phone: "00000000",
 };
